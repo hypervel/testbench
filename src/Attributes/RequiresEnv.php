@@ -8,6 +8,7 @@ use Attribute;
 use Closure;
 use Hypervel\Contracts\Foundation\Application as ApplicationContract;
 use Hypervel\Testbench\Contracts\Attributes\Actionable;
+use Hypervel\Testbench\Foundation\Env;
 
 /**
  * Skips the test if the required environment variable is missing.
@@ -30,7 +31,7 @@ final class RequiresEnv implements Actionable
     {
         $message = $this->message ?? "Missing required environment variable `{$this->key}`";
 
-        if (env($this->key) === null) {
+        if (Env::has($this->key) === false) {
             \call_user_func($action, 'markTestSkipped', [$message]);
         }
 
